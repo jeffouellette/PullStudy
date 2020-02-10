@@ -5,3 +5,4 @@ outputs
 rootFiles
 submit.job
 Plots/2d
+scpSync.sh
