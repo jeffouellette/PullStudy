@@ -78,8 +78,8 @@ int main () {
     for (short iCent : {1, 2, 3}) {
 
       for (short iX = 0; iX < 6; iX++) {
-        h_trk_pth_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_pth_pull_iPtZ%i_iCent%i_iPth%i", iPtZ, iCent, iX), ";Pull;Counts", 12, -4, 4);
-        h_trk_xhz_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_xhz_pull_iPtZ%i_iCent%i_iXhZ%i", iPtZ, iCent, iX), ";Pull;Counts", 12, -4, 4);
+        h_trk_pth_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_pth_pull_iPtZ%i_iCent%i_iPth%i", iPtZ, iCent, iX), ";Pull;Counts", 24, -4, 4);
+        h_trk_xhz_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_xhz_pull_iPtZ%i_iCent%i_iXhZ%i", iPtZ, iCent, iX), ";Pull;Counts", 24, -4, 4);
         h_trk_pth_pull[iPtZ-2][iCent-1][iX]->Sumw2 ();
         h_trk_xhz_pull[iPtZ-2][iCent-1][iX]->Sumw2 ();
         g_pth_yield_pull[0][iPtZ-2][iCent-1][iX] = new TGraph ();
@@ -327,6 +327,7 @@ int main () {
       pthSigmaErrors[0][iCent-1][iX] = f->GetParError (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{p}_{T}^{ch} < %s GeV", GetMinTrkStr (iX, true).c_str (), GetMaxTrkStr (iX, true).c_str ()), 0.06);
 
       c_pull_xhz_iPtZ2->cd (4*(iCent-1)+iX+1);
       h_trk_xhz_pull[0][iCent-1][iX+2]->Draw ("hist");
@@ -343,6 +344,7 @@ int main () {
       xhzSigmaErrors[0][iCent-1][iX] = f->GetParError (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{x}_{hZ} < %s", GetMinTrkStr (iX+2, false).c_str (), GetMaxTrkStr (iX+2, false).c_str ()), 0.06);
     } // end loop over iCent
   } // end loop over iX
 
@@ -363,6 +365,7 @@ int main () {
       pthSigmaErrors[1][iCent-1][iX] = f->GetParError (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{p}_{T}^{ch} < %s GeV", GetMinTrkStr (iX, true).c_str (), GetMaxTrkStr (iX, true).c_str ()), 0.06);
 
       c_pull_xhz_iPtZ3->cd (5*(iCent-1)+iX+1);
       h_trk_xhz_pull[1][iCent-1][iX+1]->Draw ("hist");
@@ -379,6 +382,7 @@ int main () {
       xhzSigmaErrors[1][iCent-1][iX] = f->GetParError (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{x}_{hZ} < %s", GetMinTrkStr (iX+1, false).c_str (), GetMaxTrkStr (iX+1, false).c_str ()), 0.06);
     } // end loop over iCent
   } // end loop over iX
 
@@ -399,6 +403,7 @@ int main () {
       pthSigmaErrors[2][iCent-1][iX] = f->GetParError  (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{p}_{T}^{ch} < %s GeV", GetMinTrkStr (iX, true).c_str (), GetMaxTrkStr (iX, true).c_str ()), 0.06);
 
       c_pull_xhz_iPtZ4->cd (6*(iCent-1)+iX+1);
       h_trk_xhz_pull[2][iCent-1][iX]->Draw ("hist");
@@ -415,6 +420,7 @@ int main () {
       xhzSigmaErrors[2][iCent-1][iX] = f->GetParError  (2);
       myText (0.2, 0.86, kBlack, Form ("#sigma = %.2f #pm %.2f", f->GetParameter (2), f->GetParError (2)), 0.06);
       myText (0.2, 0.8, kBlack, Form ("#chi^{2}/dof = %.2f/%i", chi2, ndf), 0.06);
+      myText (0.2, 0.25, kBlack, Form ("%s < #it{x}_{hZ} < %s", GetMinTrkStr (iX, false).c_str (), GetMaxTrkStr (iX, false).c_str ()), 0.06);
     } // end loop over iCent
   } // end loop over iX
 
