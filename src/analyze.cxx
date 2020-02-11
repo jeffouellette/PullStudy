@@ -271,17 +271,17 @@ int main () {
 
         TH2D* h2 = h2_trk_pth_cov[iPtZ-2][iCent-1];
         TH1D* h = h_trk_pth_yield[iPtZ-2][iCent-1];
-        for (short iX = 0; iX < nPthBins; iX++)
-          for (short iY = 0; iY < nPthBins; iY++)
-            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (2*nSeeds*(nGroup1+nGroup2)-1)*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
+        for (short iX = 0; iX < h2->GetNbinsX (); iX++)
+          for (short iY = 0; iY < h2->GetNbinsY (); iY++)
+            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (nSeeds*(nGroup1+nGroup2))*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
         h2 = h2_trk_xhz_cov[iPtZ-2][iCent-1];
         h = h_trk_xhz_yield[iPtZ-2][iCent-1];
-        for (short iX = 0; iX < nXhZBins; iX++)
-          for (short iY = 0; iY < nXhZBins; iY++)
-            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (2*nSeeds*(nGroup1+nGroup2)-1)*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
+        for (short iX = 0; iX < h2->GetNbinsX (); iX++)
+          for (short iY = 0; iY < h2->GetNbinsY (); iY++)
+            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (nSeeds*(nGroup1+nGroup2))*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
 
-        h2_trk_pth_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)-1));
-        h2_trk_xhz_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)-1));
+        h2_trk_pth_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)));
+        h2_trk_xhz_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)));
       }
 
 
