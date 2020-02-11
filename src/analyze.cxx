@@ -71,17 +71,39 @@ int main () {
   TH1D* h_trk_pth_pull[3][3][6];
   TH1D* h_trk_xhz_pull[3][3][6];
 
+  TH1D* h_trk_pth_yield[3][3];
+  TH1D* h_trk_xhz_yield[3][3];
+  TH2D* h2_trk_pth_cov[3][3];
+  TH2D* h2_trk_xhz_cov[3][3];
+
   TGraph* g_pth_yield_pull[3][3][3][6];
   TGraph* g_xhz_yield_pull[3][3][3][6];
 
+  const float pthBins[7] = {1, 2, 4, 8, 15, 30, 60};
+  const short nPthBins = sizeof (pthBins) / sizeof (pthBins[0]) - 1;
+  const float xhzBins[7] = {1./60., 1./30., 1./15., 1./8., 1./4., 1./2., 1.};
+  const short nXhZBins = sizeof (xhzBins) / sizeof (xhzBins[0]) - 1;
+
+  float trk_counts[2][6] = {{}, {}};
+
   for (short iPtZ : {2, 3, 4}) {
     for (short iCent : {1, 2, 3}) {
+
+      h_trk_pth_yield[iPtZ-2][iCent-1] = new TH1D (Form ("h_trk_pth_yield_iPtZ%i_iCent%i", iPtZ, iCent), ";#it{p}_{T}^{ch} [GeV]", nPthBins, pthBins);
+      h_trk_pth_yield[iPtZ-2][iCent-1]->Sumw2 ();
+      h_trk_xhz_yield[iPtZ-2][iCent-1] = new TH1D (Form ("h_trk_xhz_yield_iPtZ%i_iCent%i", iPtZ, iCent), ";#it{x}_{hZ}", nXhZBins, xhzBins);
+      h_trk_xhz_yield[iPtZ-2][iCent-1]->Sumw2 ();
+      h2_trk_pth_cov[iPtZ-2][iCent-1] = new TH2D (Form ("h2_trk_pth_cov_iPtZ%i_iCent%i", iPtZ, iCent), ";#it{p}_{T}^{ch} [GeV];#it{p}_{T}^{ch} [GeV]", nPthBins, pthBins, nPthBins, pthBins);
+      h2_trk_pth_cov[iPtZ-2][iCent-1]->Sumw2 ();
+      h2_trk_xhz_cov[iPtZ-2][iCent-1] = new TH2D (Form ("h2_trk_xhz_cov_iPtZ%i_iCent%i", iPtZ, iCent), ";#it{x}_{hZ};#it{x}_{hZ}", nXhZBins, xhzBins, nXhZBins, xhzBins);
+      h2_trk_xhz_cov[iPtZ-2][iCent-1]->Sumw2 ();
 
       for (short iX = 0; iX < 6; iX++) {
         h_trk_pth_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_pth_pull_iPtZ%i_iCent%i_iPth%i", iPtZ, iCent, iX), ";Pull;Counts", 24, -4, 4);
         h_trk_xhz_pull[iPtZ-2][iCent-1][iX] = new TH1D (Form ("h_trk_xhz_pull_iPtZ%i_iCent%i_iXhZ%i", iPtZ, iCent, iX), ";Pull;Counts", 24, -4, 4);
         h_trk_pth_pull[iPtZ-2][iCent-1][iX]->Sumw2 ();
         h_trk_xhz_pull[iPtZ-2][iCent-1][iX]->Sumw2 ();
+
         g_pth_yield_pull[0][iPtZ-2][iCent-1][iX] = new TGraph ();
         g_pth_yield_pull[0][iPtZ-2][iCent-1][iX]->SetName (Form ("g_pth_yield_pull_ee_iPtZ%i_iCent%i_iPth%i", iPtZ, iCent, iX));
         g_xhz_yield_pull[0][iPtZ-2][iCent-1][iX] = new TGraph ();
@@ -129,19 +151,6 @@ int main () {
 
           const int iGroup = (iEvent < nGroup1 ? 0 : 1); // 0 corresponds to group 1, 1 to group 2
 
-          float tracks_1to2GeV = 0;
-          float tracks_2to4GeV = 0;
-          float tracks_4to8GeV = 0;
-          float tracks_8to15GeV = 0;
-          float tracks_15to30GeV = 0;
-          float tracks_30to60GeV = 0;
-          float tracks_1_60to1_30 = 0;
-          float tracks_1_30to1_15 = 0;
-          float tracks_1_15to1_8 = 0;
-          float tracks_1_8to1_4 = 0;
-          float tracks_1_4to1_2 = 0;
-          float tracks_1_2to1 = 0;
-      
           for (int iPart = 0; iPart < part_n; iPart++) {
             if (fabs (part_eta[iPart]) > 2.5)
               continue;
@@ -152,49 +161,42 @@ int main () {
             const float xhz = trkpt / z_pt;
 
             if (trkpt < 60) {
-              if (30 <= trkpt) tracks_30to60GeV += 1.;
-              else if (15 <= trkpt) tracks_15to30GeV += 1.;
-              else if (8 <= trkpt) tracks_8to15GeV += 1.;
-              else if (4 <= trkpt) tracks_4to8GeV += 1.;
-              else if (2 <= trkpt) tracks_2to4GeV += 1.;
-              else if (1 <= trkpt) tracks_1to2GeV += 1.;
+              if (30 <= trkpt)      trk_counts[0][5] += 1.;
+              else if (15 <= trkpt) trk_counts[0][4] += 1.;
+              else if (8 <= trkpt)  trk_counts[0][3] += 1.;
+              else if (4 <= trkpt)  trk_counts[0][2] += 1.;
+              else if (2 <= trkpt)  trk_counts[0][1] += 1.;
+              else if (1 <= trkpt)  trk_counts[0][0] += 1.;
             }
 
             if (1./60. <= xhz) {
-              if (xhz <= 1./30.) tracks_1_60to1_30 += 1.;
-              else if (xhz <= 1./15.) tracks_1_30to1_15 += 1.;
-              else if (xhz <= 1./8.) tracks_1_15to1_8 += 1.;
-              else if (xhz <= 1./4.) tracks_1_8to1_4 += 1.;
-              else if (xhz <= 1./2.) tracks_1_4to1_2 += 1.;
-              else if (xhz <= 1.) tracks_1_2to1 += 1.;
+              if (xhz <= 1./30.)      trk_counts[1][0] += 1.;
+              else if (xhz <= 1./15.) trk_counts[1][1] += 1.;
+              else if (xhz <= 1./8.)  trk_counts[1][2] += 1.;
+              else if (xhz <= 1./4.)  trk_counts[1][3] += 1.;
+              else if (xhz <= 1./2.)  trk_counts[1][4] += 1.;
+              else if (xhz <= 1.)     trk_counts[1][5] += 1.;
             }
           } // end loop over iPart
 
-          trkPtYields[iGroup][0] += tracks_1to2GeV;
-          trkPtYields[iGroup][1] += tracks_2to4GeV;
-          trkPtYields[iGroup][2] += tracks_4to8GeV;
-          trkPtYields[iGroup][3] += tracks_8to15GeV;
-          trkPtYields[iGroup][4] += tracks_15to30GeV;
-          trkPtYields[iGroup][5] += tracks_30to60GeV;
-          trkPtYieldWeightsSq[iGroup][0] += pow (tracks_1to2GeV, 2);
-          trkPtYieldWeightsSq[iGroup][1] += pow (tracks_2to4GeV, 2);
-          trkPtYieldWeightsSq[iGroup][2] += pow (tracks_4to8GeV, 2);
-          trkPtYieldWeightsSq[iGroup][3] += pow (tracks_8to15GeV, 2);
-          trkPtYieldWeightsSq[iGroup][4] += pow (tracks_15to30GeV, 2);
-          trkPtYieldWeightsSq[iGroup][5] += pow (tracks_30to60GeV, 2);
+          for (short iX = 0; iX < nPthBins; iX++)
+            for (short iY = 0; iY < nPthBins; iY++)
+              h2_trk_pth_cov[iPtZ-2][iCent-1]->SetBinContent (iX+1, iY+1, h2_trk_pth_cov[iPtZ-2][iCent-1]->GetBinContent (iX+1, iY+1) + (trk_counts[0][iX])*(trk_counts[0][iY]));
+          for (short iX = 0; iX < nXhZBins; iX++)
+            for (short iY = 0; iY < nXhZBins; iY++)
+              h2_trk_xhz_cov[iPtZ-2][iCent-1]->SetBinContent (iX+1, iY+1, h2_trk_xhz_cov[iPtZ-2][iCent-1]->GetBinContent (iX+1, iY+1) + (trk_counts[1][iX])*(trk_counts[1][iY]));
 
-          trkXYields[iGroup][0] += tracks_1_60to1_30;
-          trkXYields[iGroup][1] += tracks_1_30to1_15;
-          trkXYields[iGroup][2] += tracks_1_15to1_8;
-          trkXYields[iGroup][3] += tracks_1_8to1_4;
-          trkXYields[iGroup][4] += tracks_1_4to1_2;
-          trkXYields[iGroup][5] += tracks_1_2to1;
-          trkXYieldWeightsSq[iGroup][0] += pow (tracks_1_60to1_30, 2);
-          trkXYieldWeightsSq[iGroup][1] += pow (tracks_1_30to1_15, 2);
-          trkXYieldWeightsSq[iGroup][2] += pow (tracks_1_15to1_8, 2);
-          trkXYieldWeightsSq[iGroup][3] += pow (tracks_1_8to1_4, 2);
-          trkXYieldWeightsSq[iGroup][4] += pow (tracks_1_4to1_2, 2);
-          trkXYieldWeightsSq[iGroup][5] += pow (tracks_1_2to1, 2);
+          for (int i = 0; i < 6; i++) {
+            trkPtYields[iGroup][i] += trk_counts[0][i];
+            trkPtYieldWeightsSq[iGroup][i] += pow (trk_counts[0][i], 2);
+            trkXYields[iGroup][i] += trk_counts[1][i];
+            trkXYieldWeightsSq[iGroup][i] += pow (trk_counts[1][i], 2);
+          }
+
+          for (int i = 0; i < 6; i++) {
+            trk_counts[0][i] = 0;
+            trk_counts[1][i] = 0;
+          }
         } // end loop over iEvent
 
         inFile->Close ();
@@ -209,6 +211,8 @@ int main () {
           yield2 = trkPtYields[1][iX] / nGroup2;
           //sigma2 = sqrt (trkPtYields[1][iX]) / nGroup2;
           sigma2 = sqrt (trkPtYieldWeightsSq[1][iX]) / nGroup2;
+
+          h_trk_pth_yield[iPtZ-2][iCent-1]->SetBinContent (iX+1, h_trk_pth_yield[iPtZ-2][iCent-1]->GetBinContent (iX+1) + (nGroup1*yield1+nGroup2*yield2));
 
           trkPtYieldAvg[0][iX] += yield1;
           trkPtYieldAvg[1][iX] += yield2;
@@ -228,6 +232,8 @@ int main () {
           yield2 = trkXYields[1][iX] / nGroup2;
           //sigma2 = sqrt (trkXYields[1][iX]) / nGroup2;
           sigma2 = sqrt (trkXYieldWeightsSq[1][iX]) / nGroup2;
+
+          h_trk_xhz_yield[iPtZ-2][iCent-1]->SetBinContent (iX+1, h_trk_xhz_yield[iPtZ-2][iCent-1]->GetBinContent (iX+1) + (nGroup1*yield1+nGroup2*yield2));
 
           trkXYieldAvg[0][iX] += yield1;
           trkXYieldAvg[1][iX] += yield2;
@@ -254,6 +260,26 @@ int main () {
         } // end loop over iX
 
       } // end loop over seeds
+
+
+      {
+        TH2D* h2 = h2_trk_pth_cov[iPtZ-2][iCent-1];
+        TH1D* h = h_trk_pth_yield[iPtZ-2][iCent-1];
+        for (short iX = 0; iX < nPthBins; iX++)
+          for (short iY = 0; iY < nPthBins; iY++)
+            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (2*nSeeds*(nGroup1+nGroup2)-1)*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
+        h2 = h2_trk_xhz_cov[iPtZ-2][iCent-1];
+        h = h_trk_xhz_yield[iPtZ-2][iCent-1];
+        for (short iX = 0; iX < nXhZBins; iX++)
+          for (short iY = 0; iY < nXhZBins; iY++)
+            h2->SetBinContent (iX+1, iY+1, h2->GetBinContent (iX+1, iY+1) - (2*nSeeds*(nGroup1+nGroup2)-1)*(h->GetBinContent (iX+1))*(h->GetBinContent (iY+1)));
+
+        h_trk_pth_yield[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)), "width");
+        h2_trk_pth_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)-1), "width");
+        h_trk_xhz_yield[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)), "width");
+        h2_trk_xhz_cov[iPtZ-2][iCent-1]->Scale (1./(nSeeds*(nGroup1+nGroup2)-1), "width");
+      }
+
 
       //cout << "iPtZ = " << iPtZ << ", iCent = " << iCent << endl;
       //float sigma1, sigma2;
@@ -654,18 +680,41 @@ int main () {
   c_pullWidth->SaveAs ("Plots/pullWidth_xhz.pdf");
 
 
+  // now save histograms to a rootfile
+  TFile* outFile = new TFile ("outFile.root", "recreate");
+  for (short iPtZ : {2, 3, 4}) {
+    for (short iCent : {1, 2, 3}) {
+      for (short iX = 0; iX < 6; iX++) {
+        h_trk_pth_pull[iPtZ-2][iCent-1][iX]->Write ();
+        h_trk_xhz_pull[iPtZ-2][iCent-1][iX]->Write ();
+        for (short iChannel : {0, 1, 2}) {
+          g_pth_yield_pull[iChannel][iPtZ-2][iCent-1][iX]->Write ();
+          g_xhz_yield_pull[iChannel][iPtZ-2][iCent-1][iX]->Write ();
+        }
+      }
+      h_trk_pth_yield[iPtZ-2][iCent-1]->Write ();
+      h_trk_xhz_yield[iPtZ-2][iCent-1]->Write ();
+      h2_trk_pth_cov[iPtZ-2][iCent-1]->Write ();
+      h2_trk_xhz_cov[iPtZ-2][iCent-1]->Write ();
+      g_pth_pullWidth[iPtZ-2][iCent-1]->Write ();
+      g_xhz_pullWidth[iPtZ-2][iCent-1]->Write ();
+    }
+  }
+  outFile->Close ();
+
+
   // now save extracted pull values to a file
   ofstream correctionsFile;
   correctionsFile.open ("pullCorrections.dat");
-  for (short iPtZ : {0, 1, 2}) {
+  for (short iPtZ : {2, 3, 4}) {
     for (short iCent : {1, 2, 3}) {
       correctionsFile << "iPtZ = " << iPtZ << ", iCent = " << iCent << endl;
       for (short iX = 0; iX < 6; iX++) {
-        correctionsFile << pthSigmaValues[iPtZ][iCent-1][iX] << "\t" << pthSigmaErrors[iPtZ][iCent-1][iX] << "\t";
+        correctionsFile << pthSigmaValues[iPtZ-2][iCent-1][iX] << "\t" << pthSigmaErrors[iPtZ-2][iCent-1][iX] << "\t";
       }
       correctionsFile << endl;
       for (short iX = 0; iX < 6; iX++) {
-        correctionsFile << xhzSigmaValues[iPtZ][iCent-1][iX] << "\t" << xhzSigmaErrors[iPtZ][iCent-1][iX] << "\t";
+        correctionsFile << xhzSigmaValues[iPtZ-2][iCent-1][iX] << "\t" << xhzSigmaErrors[iPtZ-2][iCent-1][iX] << "\t";
       }
       correctionsFile << endl;
     }
@@ -675,6 +724,7 @@ int main () {
 
   return 0;
 }
+
 
 void analyze () {
   main ();
