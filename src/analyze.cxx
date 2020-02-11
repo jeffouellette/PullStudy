@@ -206,11 +206,11 @@ int main () {
         float yield1, yield2, sigma1, sigma2;
         for (short iX = 0; iX < 6; iX++) {
           yield1 = trkPtYields[0][iX] / nGroup1;
-          //sigma1 = sqrt (trkPtYields[0][iX]) / nGroup1;
-          sigma1 = sqrt (trkPtYieldWeightsSq[0][iX]) / nGroup1;
+          sigma1 = sqrt (trkPtYields[0][iX]) / nGroup1;
+          //sigma1 = sqrt (trkPtYieldWeightsSq[0][iX]) / nGroup1;
           yield2 = trkPtYields[1][iX] / nGroup2;
-          //sigma2 = sqrt (trkPtYields[1][iX]) / nGroup2;
-          sigma2 = sqrt (trkPtYieldWeightsSq[1][iX]) / nGroup2;
+          sigma2 = sqrt (trkPtYields[1][iX]) / nGroup2;
+          //sigma2 = sqrt (trkPtYieldWeightsSq[1][iX]) / nGroup2;
 
           h_trk_pth_yield[iPtZ-2][iCent-1]->SetBinContent (iX+1, h_trk_pth_yield[iPtZ-2][iCent-1]->GetBinContent (iX+1) + (nGroup1*yield1+nGroup2*yield2));
 
@@ -227,11 +227,11 @@ int main () {
           g_pth_yield_pull[2][iPtZ-2][iCent-1][iX]->SetPoint (g_pth_yield_pull[2][iPtZ-2][iCent-1][iX]->GetN (), (nGroup1*yield1+nGroup2*yield2) / (nGroup1+nGroup2), pullPth);
 
           yield1 = trkXYields[0][iX] / nGroup1;
-          //sigma1 = sqrt (trkXYields[0][iX]) / nGroup1;
-          sigma1 = sqrt (trkXYieldWeightsSq[0][iX]) / nGroup1;
+          sigma1 = sqrt (trkXYields[0][iX]) / nGroup1;
+          //sigma1 = sqrt (trkXYieldWeightsSq[0][iX]) / nGroup1;
           yield2 = trkXYields[1][iX] / nGroup2;
-          //sigma2 = sqrt (trkXYields[1][iX]) / nGroup2;
-          sigma2 = sqrt (trkXYieldWeightsSq[1][iX]) / nGroup2;
+          sigma2 = sqrt (trkXYields[1][iX]) / nGroup2;
+          //sigma2 = sqrt (trkXYieldWeightsSq[1][iX]) / nGroup2;
 
           h_trk_xhz_yield[iPtZ-2][iCent-1]->SetBinContent (iX+1, h_trk_xhz_yield[iPtZ-2][iCent-1]->GetBinContent (iX+1) + (nGroup1*yield1+nGroup2*yield2));
 
