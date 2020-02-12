@@ -7,13 +7,16 @@ reqdirs= bin outputs logs errors Plots
 directories:
 	mkdir -p ${reqdirs}
 
-all: directories gen analyze
+all: directories gen analyze plotter
 
 gen: src/gen.cxx
 	$(CXX) $< $(CXXFLAGS) $(LDFLAGS) $(PYTHIA8_DIR)/lib/libpythia8.a -o bin/gen
 
 analyze: src/analyze.cxx
 	$(CXX) $< $(CXXFLAGS) $(LDFLAGS) -o bin/analyze
+
+plotter: src/plotter.cxx
+	$(CXX) $< $(CXXFLAGS) $(LDFLAGS) -o bin/plotter
 
 clean:
 	rm -rf bin logs errors

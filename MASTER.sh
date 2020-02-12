@@ -18,11 +18,16 @@ njobs=0
 
 for iPtZ in {2..4}
 do
-  for iCent in {1..3}
+  for iCent in {0..0}
   do
-    for iSeed in {1001..2000}
+    for iSeed in {0..400}
     do
-      seed=$((iSeed+10000*(3*(iPtZ-2)+(iCent-1))))
+      if [ ${iCent} == 0 ]
+      then
+        seed=$((iSeed+10000*(3*(iPtZ-2)+4)))
+      else
+        seed=$((iSeed+10000*(3*(iPtZ-2)+(iCent-1))))
+      fi
       echo "Arguments = ${seed} ${iPtZ} ${iCent} /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/rootFiles/PullStudy/iSeed${iSeed}_iPtZ${iPtZ}_iCent${iCent}.root" >> submit.job
       echo "Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/iSeed${iSeed}_iPtZ${iPtZ}_iCent${iCent}.log" >> submit.job
       echo "Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/iSeed${iSeed}_iPtZ${iPtZ}_iCent${iCent}.out" >> submit.job

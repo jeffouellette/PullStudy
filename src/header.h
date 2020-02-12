@@ -136,12 +136,15 @@ string GetMaxTrkStr (short iX, bool useTrkPt) {
 
 
 int GetNEvents (short iPtZ, short iCent) {
+  if (iPtZ == 2 && iCent == 0) return 28936;
   if (iPtZ == 2 && iCent == 1) return 657;
   if (iPtZ == 2 && iCent == 2) return 1501;
   if (iPtZ == 2 && iCent == 3) return 1587;
+  if (iPtZ == 3 && iCent == 0) return 14997;
   if (iPtZ == 3 && iCent == 1) return 354;
   if (iPtZ == 3 && iCent == 2) return 848;
   if (iPtZ == 3 && iCent == 3) return 849;
+  if (iPtZ == 4 && iCent == 0) return 5460;
   if (iPtZ == 4 && iCent == 1) return 141;
   if (iPtZ == 4 && iCent == 2) return 318;
   if (iPtZ == 4 && iCent == 3) return 318;
@@ -172,19 +175,22 @@ string FormatCounts (int counts) {
 
 int GetNumInGroup1 (short iPtZ, short iCent) {
   if (iPtZ == 2) {
-    if (iCent == 1)       return 260;
-    else if (iCent == 2)  return 673;
-    else if (iCent == 3)  return 782;
+    if (iCent == 0)  return 12522;
+    if (iCent == 1)  return 260;
+    if (iCent == 2)  return 673;
+    if (iCent == 3)  return 782;
   }
   else if (iPtZ == 3) {
-    if (iCent == 1)       return 148;
-    else if (iCent == 2)  return 364;
-    else if (iCent == 3)  return 443;
+    if (iCent == 0)  return 6577;
+    if (iCent == 1)  return 148;
+    if (iCent == 2)  return 364;
+    if (iCent == 3)  return 443;
   }
   else if (iPtZ == 4) {
-    if (iCent == 1)       return 52;
-    else if (iCent == 2)  return 147;
-    else if (iCent == 3)  return 145;
+    if (iCent == 0)  return 2428;
+    if (iCent == 1)  return 52;
+    if (iCent == 2)  return 147;
+    if (iCent == 3)  return 145;
   }
   return 0;
 }
@@ -192,19 +198,22 @@ int GetNumInGroup1 (short iPtZ, short iCent) {
 
 int GetNumInGroup2 (short iPtZ, short iCent) {
   if (iPtZ == 2) {
-    if (iCent == 1)       return 397;
-    else if (iCent == 2)  return 828;
-    else if (iCent == 3)  return 805;
+    if (iCent == 0)  return 16414;
+    if (iCent == 1)  return 397;
+    if (iCent == 2)  return 828;
+    if (iCent == 3)  return 805;
   }
   else if (iPtZ == 3) {
-    if (iCent == 1)       return 206;
-    else if (iCent == 2)  return 484;
-    else if (iCent == 3)  return 406;
+    if (iCent == 0)  return 8420;
+    if (iCent == 1)  return 206;
+    if (iCent == 2)  return 484;
+    if (iCent == 3)  return 406;
   }
   else if (iPtZ == 4) {
-    if (iCent == 1)       return 89;
-    else if (iCent == 2)  return 171;
-    else if (iCent == 3)  return 173;
+    if (iCent == 0)  return 3032;
+    if (iCent == 1)  return 89;
+    if (iCent == 2)  return 171;
+    if (iCent == 3)  return 173;
   }
   return 0;
 }
