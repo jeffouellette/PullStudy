@@ -29,12 +29,12 @@
 using namespace atlashi;
 using namespace pullstudy;
 
-//const float bkgExponent = -5.;
-//TRandom3* rndm = new TRandom3 ();
-//
-//float SamplePowerLaw (float x) {
-//  return pow (1 + (pow (60, bkgExponent+1) - 1)*x, 1./(bkgExponent+1.));
-//}
+const float bkgExponent = -5.;
+TRandom3* rndm = new TRandom3 ();
+
+float SamplePowerLaw (float x) {
+  return pow (1 + (pow (60, bkgExponent+1) - 1)*x, 1./(bkgExponent+1.));
+}
 
 int main (int argc, char** argv) {
 
@@ -50,11 +50,11 @@ int main (int argc, char** argv) {
 
   const int nSeeds = 2001;
 
-  //TFile* nchFile = new TFile ("nch_ztagged_PbPb.root", "read");
-  //TH1D* h_nch_ztagged_PbPb[3];
-  //h_nch_ztagged_PbPb[0] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent30_80");
-  //h_nch_ztagged_PbPb[1] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent10_30");
-  //h_nch_ztagged_PbPb[2] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent0_10");
+  TFile* nchFile = new TFile ("nch_ztagged_PbPb.root", "read");
+  TH1D* h_nch_ztagged_PbPb[3];
+  h_nch_ztagged_PbPb[0] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent30_80");
+  h_nch_ztagged_PbPb[1] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent10_30");
+  h_nch_ztagged_PbPb[2] = (TH1D*) nchFile->Get ("h_nch_ztagged_PbPb_cent0_10");
 
   TFile* inFile;
   TTree* inTree;
@@ -205,7 +205,6 @@ int main (int argc, char** argv) {
       } // end loop over iPart
 
 
-      /*
       if (iCent != 0) {
         // now in the case of Pb+Pb sample a falling background to embed this Z in
         {
@@ -234,39 +233,38 @@ int main (int argc, char** argv) {
               else if (xhz <= 1.)     trk_counts[1][5] += 1.;
             }
           } // end loop over iPart
-        }
+        } // end loop over iMixedEvent
 
-        // then subtract the same falling background
-        for (int iMixedEvent = 0; iMixedEvent < 20; iMixedEvent++)
-        {
-          const int nchBkg = h_nch_ztagged_PbPb[iCent-1]->GetRandom ();
-          for (int iPart = 0; iPart < nchBkg; iPart++) {
-            const float trkpt = SamplePowerLaw (rndm->Rndm ());
-            const float xhz = trkpt / z_pt;
-            if (DeltaPhi (2*pi*rndm->Rndm (), z_phi) < 3*pi/4)
-              continue;
+        //// then subtract the same falling background
+        //for (int iMixedEvent = 0; iMixedEvent < 20; iMixedEvent++)
+        //{
+        //  const int nchBkg = h_nch_ztagged_PbPb[iCent-1]->GetRandom ();
+        //  for (int iPart = 0; iPart < nchBkg; iPart++) {
+        //    const float trkpt = SamplePowerLaw (rndm->Rndm ());
+        //    const float xhz = trkpt / z_pt;
+        //    if (DeltaPhi (2*pi*rndm->Rndm (), z_phi) < 3*pi/4)
+        //      continue;
 
-            if (trkpt < 60) {
-              if (30 <= trkpt)      trk_counts[0][5] -= 1./20.;
-              else if (15 <= trkpt) trk_counts[0][4] -= 1./20.;
-              else if (8 <= trkpt)  trk_counts[0][3] -= 1./20.;
-              else if (4 <= trkpt)  trk_counts[0][2] -= 1./20.;
-              else if (2 <= trkpt)  trk_counts[0][1] -= 1./20.;
-              else if (1 <= trkpt)  trk_counts[0][0] -= 1./20.;
-            }
+        //    if (trkpt < 60) {
+        //      if (30 <= trkpt)      trk_counts[0][5] -= 1./20.;
+        //      else if (15 <= trkpt) trk_counts[0][4] -= 1./20.;
+        //      else if (8 <= trkpt)  trk_counts[0][3] -= 1./20.;
+        //      else if (4 <= trkpt)  trk_counts[0][2] -= 1./20.;
+        //      else if (2 <= trkpt)  trk_counts[0][1] -= 1./20.;
+        //      else if (1 <= trkpt)  trk_counts[0][0] -= 1./20.;
+        //    }
 
-            if (1./60. <= xhz) {
-              if (xhz <= 1./30.)      trk_counts[1][0] -= 1./20.;
-              else if (xhz <= 1./15.) trk_counts[1][1] -= 1./20.;
-              else if (xhz <= 1./8.)  trk_counts[1][2] -= 1./20.;
-              else if (xhz <= 1./4.)  trk_counts[1][3] -= 1./20.;
-              else if (xhz <= 1./2.)  trk_counts[1][4] -= 1./20.;
-              else if (xhz <= 1.)     trk_counts[1][5] -= 1./20.;
-            }
-          } // end loop over iPart
-        }
+        //    if (1./60. <= xhz) {
+        //      if (xhz <= 1./30.)      trk_counts[1][0] -= 1./20.;
+        //      else if (xhz <= 1./15.) trk_counts[1][1] -= 1./20.;
+        //      else if (xhz <= 1./8.)  trk_counts[1][2] -= 1./20.;
+        //      else if (xhz <= 1./4.)  trk_counts[1][3] -= 1./20.;
+        //      else if (xhz <= 1./2.)  trk_counts[1][4] -= 1./20.;
+        //      else if (xhz <= 1.)     trk_counts[1][5] -= 1./20.;
+        //    }
+        //  } // end loop over iPart
+        //} // end loop over iMixedEvent
       }
-      */
 
       for (short iX = 0; iX < nPthBins; iX++)
         for (short iY = 0; iY < nPthBins; iY++)

@@ -7,6 +7,12 @@ InitialDir = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStud
 accounting_group = group_atlas.boulder
 
 
+Arguments = 2 0
+Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ2_iCent0.log
+Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ2_iCent0.out
+Error = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/errors/analyze_iPtZ2_iCent0.err
+Queue 1
+
 Arguments = 2 1
 Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ2_iCent1.log
 Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ2_iCent1.out
@@ -25,6 +31,12 @@ Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze
 Error = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/errors/analyze_iPtZ2_iCent3.err
 Queue 1
 
+Arguments = 3 0
+Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ3_iCent0.log
+Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ3_iCent0.out
+Error = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/errors/analyze_iPtZ3_iCent0.err
+Queue 1
+
 Arguments = 3 1
 Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ3_iCent1.log
 Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ3_iCent1.out
@@ -41,6 +53,12 @@ Arguments = 3 3
 Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ3_iCent3.log
 Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ3_iCent3.out
 Error = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/errors/analyze_iPtZ3_iCent3.err
+Queue 1
+
+Arguments = 4 0
+Log = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/logs/analyze_iPtZ4_iCent0.log
+Output = /atlasgpfs01/usatlas/data/jeff/ZTrackAnalysis/outputs/PullStudy/analyze_iPtZ4_iCent0.out
+Error = /atlasgpfs01/usatlas/workarea/jeff/atlas-hi/ZTrackAnalysis/PullStudy/errors/analyze_iPtZ4_iCent0.err
 Queue 1
 
 Arguments = 4 1

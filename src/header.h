@@ -135,23 +135,6 @@ string GetMaxTrkStr (short iX, bool useTrkPt) {
 }
 
 
-int GetNEvents (short iPtZ, short iCent) {
-  if (iPtZ == 2 && iCent == 0) return 28936;
-  if (iPtZ == 2 && iCent == 1) return 657;
-  if (iPtZ == 2 && iCent == 2) return 1501;
-  if (iPtZ == 2 && iCent == 3) return 1587;
-  if (iPtZ == 3 && iCent == 0) return 14997;
-  if (iPtZ == 3 && iCent == 1) return 354;
-  if (iPtZ == 3 && iCent == 2) return 848;
-  if (iPtZ == 3 && iCent == 3) return 849;
-  if (iPtZ == 4 && iCent == 0) return 5460;
-  if (iPtZ == 4 && iCent == 1) return 141;
-  if (iPtZ == 4 && iCent == 2) return 318;
-  if (iPtZ == 4 && iCent == 3) return 318;
-  return 0;
-}
-
-
 string FormatCounts (int counts) {
   if (counts < 1000) return "";
   else if (1000 <= counts && counts < 10000) {
@@ -170,6 +153,23 @@ string FormatCounts (int counts) {
     return countsStr;
   }
   else return "";
+}
+
+
+int GetNEvents (short iPtZ, short iCent) {
+  if (iPtZ == 2 && iCent == 0) return 28936;
+  if (iPtZ == 2 && iCent == 1) return 657;
+  if (iPtZ == 2 && iCent == 2) return 1501;
+  if (iPtZ == 2 && iCent == 3) return 1587;
+  if (iPtZ == 3 && iCent == 0) return 14997;
+  if (iPtZ == 3 && iCent == 1) return 354;
+  if (iPtZ == 3 && iCent == 2) return 848;
+  if (iPtZ == 3 && iCent == 3) return 849;
+  if (iPtZ == 4 && iCent == 0) return 5460;
+  if (iPtZ == 4 && iCent == 1) return 141;
+  if (iPtZ == 4 && iCent == 2) return 318;
+  if (iPtZ == 4 && iCent == 3) return 318;
+  return 0;
 }
 
 
